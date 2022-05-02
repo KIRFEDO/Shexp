@@ -44,6 +44,13 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        AM_Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivityRegister.class);
+                startActivity(intent);
+            }
+        });
     };
 
 }

@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".ActivityUserPage"
+            android:exported="false" />
+        <activity
             android:name=".ActivityLogin"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityRegister"
             android:exported="false" />
         <activity
             android:name=".ActivityMain"

@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
+            android:text="REGISTER"
             android:textColor="@color/purple_500"
             android:textSize="50sp"
             android:textStyle="bold" />
@@ -40,7 +40,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/AL_LoginET"
+            android:id="@+id/AR_LoginET"
             android:layout_width="270sp"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -51,25 +51,48 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/AL_PasswordET"
+            android:id="@+id/AR_EmailET"
             android:layout_width="270sp"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Password"
-            android:layout_marginTop="20sp"
-            app:passwordToggleEnabled="true"
-            android:inputType="textPassword">
+            android:hint="E-mail"
+            android:layout_marginTop="20sp">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/AR_PasswordET"
+            android:layout_width="270sp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Password"
+            android:layout_marginTop="20sp"
+            app:passwordToggleEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="270sp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Repeat password"
+            android:layout_marginTop="20sp"
+            app:passwordToggleEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/AR_PasswordRepET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
-            android:id="@+id/AL_LoginBtn"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:text="LOGIN"
+            android:text="REGISTER"
             android:textStyle="bold"
             android:textAlignment="center"/>
 
