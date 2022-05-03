@@ -31,8 +31,8 @@ public class EventListAdapter extends ArrayAdapter<EventListElement> {
         TextView eventName = convertView.findViewById(R.id.ELI_eventName);
         TextView ownerName = convertView.findViewById(R.id.ELI_ownerName);
 
-        eventName.setText(event.event_name);
-        ownerName.setText(event.owner_name);
+        eventName.setText(event.eventName);
+        ownerName.setText(event.ownerName);
 
         return convertView;
     }

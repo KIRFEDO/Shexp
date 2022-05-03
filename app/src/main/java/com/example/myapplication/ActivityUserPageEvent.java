@@ -10,30 +10,29 @@ import java.util.ArrayList;
 
 public class ActivityUserPageEvent extends AppCompatActivity {
 
-    ListView AUP_eventList;
+    ListView AUPE_eventList;
     ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_page);
+        setContentView(R.layout.activity_user_page_event);
 
-        AUP_eventList = findViewById(R.id.AUP_eventList);
+        AUPE_eventList = findViewById(R.id.AUPE_eventList);
 
-        String[] events = {"1","2","3","4","5","6","7","8","9","0"};
-        Integer[] events_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+        String[] items = {"1","2","3","4","5","6","7","8","9","0"};
         String[] owners = {"a", "b", "c", "d", "e", "f", "g", "j", "z", "pipa"};
-        Integer[] owners_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-        Integer[] avatar_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+        Integer[] itemIds = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+        Integer[] itemCosts = {100, 2100, 3100100, 4100, 5100, 6, 7, 24, 9100, 0};
 
-        ArrayList<EventListElement> eventArrayList = new ArrayList<>();
+        ArrayList<EventItemListElement> eventItemArrayList = new ArrayList<>();
 
-        for(int i=0;i<events.length;i++){
-            EventListElement event = new EventListElement(events[i], events_ids[i], owners[i], owners_ids[i], avatar_ids[i]);
-            eventArrayList.add(event);
+        for(int i=0;i<items.length;i++){
+            EventItemListElement item = new EventItemListElement(items[i], owners[i], itemIds[i], itemCosts[i]);
+            eventItemArrayList.add(item);
         }
 
-        adapter = new EventListAdapter(getApplicationContext(), eventArrayList);
-        AUP_eventList.setAdapter(adapter);
+        adapter = new EventItemListAdapter(getApplicationContext(), eventItemArrayList);
+        AUPE_eventList.setAdapter(adapter);
     }
 }

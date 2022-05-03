@@ -13,6 +13,9 @@
             android:name=".ActivityUserPage"
             android:exported="false" />
         <activity
+            android:name=".ActivityUserPageEvent"
+            android:exported="false" />
+        <activity
             android:name=".ActivityLogin"
             android:exported="false" />
         <activity
