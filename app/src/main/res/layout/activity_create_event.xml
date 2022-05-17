@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_alignParentTop="true"
-            android:id="@+id/AUP_userLL"
+            android:id="@+id/ll_userInfo"
             android:layout_width="match_parent"
             android:layout_height="80sp"
             android:background="@color/purple_500"
@@ -24,7 +24,7 @@
 
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/AUP_LoginName"
+                android:id="@+id/tv_LoginName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -35,7 +35,7 @@
                 android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/AUP_avatar"
+                    android:id="@+id/iv_avatar"
                     android:layout_width="80sp"
                     android:layout_height="80sp"
                     android:scaleType="fitXY"
@@ -43,40 +43,56 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@id/AUP_userLL"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_below="@+id/ll_userInfo"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_emptyEventList"
+            <EditText
+                android:id="@+id/et_eventName"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:hint="Event name" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sv_searchUsers"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                app:defaultQueryHint="Search users"
+                app:iconifiedByDefault="false" />
+
+            <LinearLayout
+                android:layout_width="300sp"
+                android:layout_height="300sp"
+                android:layout_marginTop="30sp"
+                android:background="@drawable/list_view_border"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/lv_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add new users"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_createEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No events"
-                android:textSize="30sp"
-                android:visibility="gone"/>
+                android:layout_marginTop="30sp"
+                android:text="Create"
+                android:textSize="20sp" />
 
-            <ListView
-                android:id="@+id/AUP_eventList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"/>
         </LinearLayout>
     </RelativeLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AUP_addEventBtn"
-        android:layout_width="wrap_content"
-        android:tint="@color/white"
-        android:layout_height="wrap_content"
-        android:background="@color/purple_200"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/purple_200"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

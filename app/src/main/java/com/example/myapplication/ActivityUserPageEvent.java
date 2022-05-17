@@ -32,7 +32,7 @@ public class ActivityUserPageEvent extends AppCompatActivity {
             eventItemArrayList.add(item);
         }
 
-        adapter = new EventItemListAdapter(getApplicationContext(), eventItemArrayList);
+        adapter = new AdapterEventItemList(getApplicationContext(), eventItemArrayList);
         AUPE_eventList.setAdapter(adapter);
     }
 }

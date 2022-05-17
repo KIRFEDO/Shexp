@@ -3,26 +3,32 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.drive.events.CompletionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
 
 public class ActivityRegister extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
+    FirebaseDatabase db;
+    DatabaseReference ref;
     TextInputLayout AR_loginET, AR_emailET, AR_passwordET, AR_passwordRepET;
     ImageView AR_backArrow;
     Button AR_registerBTN;
@@ -39,6 +45,7 @@ public class ActivityRegister extends AppCompatActivity {
         AR_registerBTN = findViewById(R.id.AR_registerBTN);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         AR_backArrow = findViewById(R.id.AR_backArrow);
         AR_backArrow.setOnClickListener(new View.OnClickListener() {
@@ -86,11 +93,36 @@ public class ActivityRegister extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "Registrations successful!", Toast.LENGTH_SHORT).show();
+                                db = FirebaseDatabase.getInstance();
+
+                                //Users table
+                                ref = db.getReference("UsersUID");
+                                ref.child(mAuth.getCurrentUser().getUid()).setValue(new HelperRegisterClass(login, email, password), new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                        if(error != null){
+                                            Toast.makeText(getApplicationContext(), "Registrations failed!", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                    }
+                                });
+                                //Logins table
+                                ref = db.getReference("UsersLogins");
+                                ref.child(login).setValue(new HelperRegisterClass(login, email, password), new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                        if(error != null){
+                                            Toast.makeText(getApplicationContext(), "Registrations failed!", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                    }
+                                });
+
                                 startActivity(new Intent(getApplicationContext(), ActivityMain.class));
+
+
                             }else{
-//                                Toast.makeText(getApplicationContext(), "Registrations failed!", Toast.LENGTH_SHORT).show();
-                                FirebaseAuthException e = (FirebaseAuthException )task.getException();
-                                Toast.makeText(getApplicationContext(), "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Registrations failed!", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }

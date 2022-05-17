@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class EventItemListAdapter extends ArrayAdapter<EventItemListElement> {
+public class AdapterEventItemList extends ArrayAdapter<EventItemListElement> {
 
-    public EventItemListAdapter(Context context, ArrayList<EventItemListElement> eventArrayList){
-        super(context, R.layout.event_item_list_item, eventArrayList);
+    public AdapterEventItemList(Context context, ArrayList<EventItemListElement> eventArrayList){
+        super(context, R.layout.row_event_item, eventArrayList);
     }
 
     @NonNull
@@ -25,7 +25,7 @@ public class EventItemListAdapter extends ArrayAdapter<EventItemListElement> {
         EventItemListElement item = getItem(position);
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_item_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event_item, parent, false);
         }
 
         TextView eventName = convertView.findViewById(R.id.EILI_eventName);

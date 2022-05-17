@@ -22,6 +22,9 @@
             android:name=".ActivityRegister"
             android:exported="false" />
         <activity
+            android:name=".ActivityCreateEvent"
+            android:exported="false" />
+        <activity
             android:name=".ActivityMain"
             android:exported="true">
             <intent-filter>

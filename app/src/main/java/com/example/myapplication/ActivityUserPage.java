@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ public class ActivityUserPage extends AppCompatActivity {
     ArrayAdapter adapter;
     ImageView AUP_avatar;
     FirebaseAuth mAuth;
+    FloatingActionButton AUP_addEventBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class ActivityUserPage extends AppCompatActivity {
 
         AUP_eventList = findViewById(R.id.AUP_eventList);
         AUP_avatar = findViewById(R.id.AUP_avatar);
+        AUP_addEventBtn = findViewById(R.id.AUP_addEventBtn);
         mAuth = FirebaseAuth.getInstance();
 
         AUP_avatar.setOnClickListener(new View.OnClickListener() {
@@ -52,13 +54,18 @@ public class ActivityUserPage extends AppCompatActivity {
             eventArrayList.add(event);
         }
 
-        adapter = new EventListAdapter(getApplicationContext(), eventArrayList);
-        AUP_eventList.setAdapter(adapter);
+        AUP_eventList.setAdapter(new AdapterEventList(getApplicationContext(), eventArrayList));
         AUP_eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                Intent intent = new Intent(getApplicationContext(), ActivityUserPageEvent.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), ActivityUserPageEvent.class));
+            }
+        });
+
+        AUP_addEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ActivityCreateEvent.class));
             }
         });
     }
