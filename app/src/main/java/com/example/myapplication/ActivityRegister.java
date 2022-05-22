@@ -97,7 +97,7 @@ public class ActivityRegister extends AppCompatActivity {
 
                                 //Users table
                                 ref = db.getReference("UsersUID");
-                                ref.child(mAuth.getCurrentUser().getUid()).setValue(new HelperRegisterClass(login, email, password), new DatabaseReference.CompletionListener() {
+                                ref.child(mAuth.getCurrentUser().getUid()).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid()), new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                         if(error != null){
@@ -108,7 +108,7 @@ public class ActivityRegister extends AppCompatActivity {
                                 });
                                 //Logins table
                                 ref = db.getReference("UsersLogins");
-                                ref.child(login).setValue(new HelperRegisterClass(login, email, password), new DatabaseReference.CompletionListener() {
+                                ref.child(login).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid()), new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                         if(error != null){

@@ -5,16 +5,10 @@ import java.util.ArrayList;
 public class HelperEventClass {
 
     String eventName;
-    String owner;
-    ArrayList<Integer> addedUsers;
+    String ownerUid;
+    ArrayList<String> addedUsersUID;
 
     public HelperEventClass(){};
-
-    public HelperEventClass(String eventName, String owner, ArrayList<Integer> addedUsers) {
-        this.eventName = eventName;
-        this.owner = owner;
-        this.addedUsers = addedUsers;
-    }
 
     public String getEventName() {
         return eventName;
@@ -24,19 +18,25 @@ public class HelperEventClass {
         this.eventName = eventName;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getOwnerUid() {
+        return ownerUid;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setOwnerUid(String ownerUid) {
+        this.ownerUid = ownerUid;
     }
 
-    public ArrayList<Integer> getAddedUsers() {
-        return addedUsers;
+    public ArrayList<String> getAddedUsersUID() {
+        return addedUsersUID;
     }
 
-    public void setAddedUsers(ArrayList<Integer> addedUsers) {
-        this.addedUsers = addedUsers;
+    public void setAddedUsersUID(ArrayList<String> addedUsersUID) {
+        this.addedUsersUID = addedUsersUID;
+    }
+
+    public HelperEventClass(String eventName, String ownerUid, ArrayList<String> addedUsersUID) {
+        this.eventName = eventName;
+        this.ownerUid = ownerUid;
+        this.addedUsersUID = addedUsersUID;
     }
 }
