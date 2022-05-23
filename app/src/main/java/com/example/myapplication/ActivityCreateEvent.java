@@ -24,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivityCreateEvent extends AppCompatActivity {
 
@@ -35,6 +37,7 @@ public class ActivityCreateEvent extends AppCompatActivity {
     EditText et_eventName;
     FirebaseDatabase db;
     DatabaseReference ref;
+    DatabaseReference ref2;
     FirebaseAuth mAuth;
     ArrayList<UserListItem> addedUsers;
     ArrayList<CreateEventUsers> users;
@@ -55,7 +58,7 @@ public class ActivityCreateEvent extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         addedUsers = new ArrayList<>();
         ArrayList<UserListItem> searchResults = new ArrayList<>();
-        ArrayList<CreateEventUsers> users = new ArrayList<>();
+        users = new ArrayList<>();
 
         ref = db.getReference("UsersLogins");
         ref.addValueEventListener(new ValueEventListener() {
@@ -165,6 +168,45 @@ public class ActivityCreateEvent extends AppCompatActivity {
                         }
                     }
                 }
+
+                ref2 = db.getReference("UsersEvents");
+                ref2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean wasFound = false;
+                        for(String uid : addedUsersUID){
+                            for(DataSnapshot ds : snapshot.getChildren()){
+                                UserEvents userEventsClass;
+                                ArrayList<String> userEventsList = new ArrayList<String>();
+                                for(DataSnapshot ds_ev : ds.child("events").getChildren()){
+                                    userEventsList.add(ds_ev.getValue(String.class));
+                                }
+                                userEventsClass = ds.getValue(UserEvents.class);
+                                if(userEventsClass.uid.equals(uid)){
+                                    if(userEventsList.indexOf(eventName) != -1){
+                                        return;
+                                    };
+                                    userEventsList.add(eventName);
+                                    Map<String, Object> updateVal = new HashMap<String, Object>();
+                                    updateVal.put("uid", uid);
+                                    updateVal.put("events", userEventsList);
+                                    ref2.child(uid).updateChildren(updateVal);
+                                    wasFound = true;
+                                    break;
+                                }
+                            }
+                            if(!wasFound){
+                                ArrayList<String> buff = new ArrayList<String>();
+                                buff.add(eventName);
+                                ref2.child(uid).setValue(new UserEvents(uid, buff));
+                            }
+                            wasFound = false;
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
 
                 HelperEventClass helperClass = new HelperEventClass(eventName, ownerUid, addedUsersUID);
                 ref.child(eventName).setValue(helperClass);

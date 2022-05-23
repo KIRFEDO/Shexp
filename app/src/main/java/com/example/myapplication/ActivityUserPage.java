@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,19 +10,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ActivityUserPage extends AppCompatActivity {
 
     ListView AUP_eventList;
-    ArrayAdapter adapter;
     ImageView AUP_avatar;
+    FirebaseDatabase db;
+    DatabaseReference ref;
     FirebaseAuth mAuth;
     FloatingActionButton AUP_addEventBtn;
+    TextView tv_LoginName;
+    ArrayList<CreateEventUsers> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +41,9 @@ public class ActivityUserPage extends AppCompatActivity {
         AUP_eventList = findViewById(R.id.AUP_eventList);
         AUP_avatar = findViewById(R.id.AUP_avatar);
         AUP_addEventBtn = findViewById(R.id.AUP_addEventBtn);
+        tv_LoginName = findViewById(R.id.tv_LoginName);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         AUP_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +54,25 @@ public class ActivityUserPage extends AppCompatActivity {
             }
         });
 
+        ref = db.getReference("UsersUID");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    if(ds.getValue(CreateEventUsers.class).uid.equals(mAuth.getUid())){
+                        tv_LoginName.setText(ds.getValue(CreateEventUsers.class).login);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+
         String[] events = {"1","2","3","4","5","6","7","8","9","0"};
         String[] owners = {"a", "b", "c", "d", "e", "f", "g", "j", "z", "pipa"};
         Integer[] events_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
@@ -50,7 +81,7 @@ public class ActivityUserPage extends AppCompatActivity {
         ArrayList<EventListElement> eventArrayList = new ArrayList<>();
 
         for(int i=0;i<events.length;i++){
-            EventListElement event = new EventListElement(events[i], owners[i], avatar_ids[i], events_ids[i]);
+            EventListElement event = new EventListElement(events[i], owners[i], avatar_ids[i]);
             eventArrayList.add(event);
         }
 
