@@ -3,8 +3,10 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,13 +26,13 @@ import java.util.ArrayList;
 
 public class ActivityUserPage extends AppCompatActivity {
 
-    ListView AUP_eventList;
+    ListView ll_eventList;
     ImageView AUP_avatar;
     FirebaseDatabase db;
-    DatabaseReference ref;
+    DatabaseReference refUid, refUserEvents, refEvents;
     FirebaseAuth mAuth;
     FloatingActionButton AUP_addEventBtn;
-    TextView tv_LoginName;
+    TextView tv_LoginName, tv_emptyEventList;
     ArrayList<CreateEventUsers> users;
 
     @Override
@@ -38,10 +40,12 @@ public class ActivityUserPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
 
-        AUP_eventList = findViewById(R.id.AUP_eventList);
+        ll_eventList = findViewById(R.id.ll_eventList);
         AUP_avatar = findViewById(R.id.AUP_avatar);
         AUP_addEventBtn = findViewById(R.id.AUP_addEventBtn);
         tv_LoginName = findViewById(R.id.tv_LoginName);
+        tv_emptyEventList = findViewById(R.id.tv_emptyEventList);
+        users = new ArrayList<CreateEventUsers>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
@@ -54,44 +58,100 @@ public class ActivityUserPage extends AppCompatActivity {
             }
         });
 
-        ref = db.getReference("UsersUID");
-        ref.addValueEventListener(new ValueEventListener() {
+        refUid = db.getReference("UsersUID");
+        refUid.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     if(ds.getValue(CreateEventUsers.class).uid.equals(mAuth.getUid())){
                         tv_LoginName.setText(ds.getValue(CreateEventUsers.class).login);
-                        break;
                     }
+                    users.add(ds.getValue(CreateEventUsers.class));
                 }
-            }
 
+                final UserEvents[] ue = new UserEvents[1];
+                final boolean[] wasFound = {false};
+                refUserEvents = db.getReference("UsersEvents");
+                refUserEvents.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            if(ds.getValue(UserEvents.class).uid.equals(mAuth.getUid())){
+                                ue[0] = ds.getValue(UserEvents.class);
+                                wasFound[0] = true;
+                                break;
+                            }
+                        }
+                        if(wasFound[0]) {
+                            ArrayList events = new ArrayList<String>();
+                            ArrayList ownersUids = new ArrayList<String>();
+                            ArrayList owners = new ArrayList<String>();
+                            ArrayList<EventListElement> eventArrayList = new ArrayList<>();
+                            refEvents = db.getReference("Events");
+                            refEvents.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (wasFound[0]) {
+                                        for (String key : ue[0].events) {
+                                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                                if (ds.getKey().equals(key)) {
+                                                    HelperEventClass helper = ds.getValue(HelperEventClass.class);
+                                                    events.add(ds.getKey());
+                                                    ownersUids.add(ds.getValue(HelperEventClass.class).ownerUid);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        for(Object user : ownersUids){
+                                            for(CreateEventUsers ceu : users) {
+                                                if(user.toString().equals(mAuth.getUid())){
+                                                    owners.add("You");
+                                                    break;
+                                                }
+                                                if (user.toString().equals(ceu.uid)) {
+                                                    owners.add(ceu.login);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        for(int i=0;i<ue[0].events.toArray().length;i++){
+                                            eventArrayList.add(new EventListElement(
+                                                    ue[0].events.toArray()[i].toString(),
+                                                    "Owner: " + owners.get(i).toString(),
+                                                    1)
+                                                );
+                                        }
+                                        ll_eventList.setAdapter(new AdapterEventList(getApplicationContext(), eventArrayList));
+                                        ll_eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                                                startActivity(new Intent(getApplicationContext(), ActivityUserPageEvent.class));
+                                            }
+                                        });
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                            return;
+                        } else {
+                            ll_eventList.setVisibility(View.GONE);
+                            tv_emptyEventList.setVisibility(View.VISIBLE);
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
-
-
-        String[] events = {"1","2","3","4","5","6","7","8","9","0"};
-        String[] owners = {"a", "b", "c", "d", "e", "f", "g", "j", "z", "pipa"};
-        Integer[] events_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-        Integer[] avatar_ids = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-
-        ArrayList<EventListElement> eventArrayList = new ArrayList<>();
-
-        for(int i=0;i<events.length;i++){
-            EventListElement event = new EventListElement(events[i], owners[i], avatar_ids[i]);
-            eventArrayList.add(event);
-        }
-
-        AUP_eventList.setAdapter(new AdapterEventList(getApplicationContext(), eventArrayList));
-        AUP_eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                startActivity(new Intent(getApplicationContext(), ActivityUserPageEvent.class));
-            }
-        });
 
         AUP_addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override

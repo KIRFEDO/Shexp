@@ -57,7 +57,7 @@
                 android:visibility="gone"/>
 
             <ListView
-                android:id="@+id/AUP_eventList"
+                android:id="@+id/ll_eventList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"/>
