@@ -24,7 +24,7 @@
 
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/AUPE_LoginName"
+                android:id="@+id/tv_LoginName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -48,86 +48,104 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/AUPE_userLL"
             android:orientation="horizontal">
+
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10sp"
                 android:layout_marginTop="10sp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/AIPE_eventName"
+                    android:id="@+id/tv_eventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="EVENT_NAME"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:id="@+id/tv_owner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:text="localization"
-                    android:maxWidth="150sp"/>
+                    android:maxWidth="150sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginBottom="5sp"
+                    android:text="Owner:" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="You are all set!"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:text="You are all set!"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textColor="@color/black"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
 
         <ListView
-            android:id="@+id/AUPE_eventList"
+            android:id="@+id/lv_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/AUPE_eventDescLL"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_noActivities"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="No activities"
+            android:textSize="30sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/purple_500"
             android:gravity="left|center"
-            android:orientation="horizontal"
-            android:background="@color/purple_500">
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="15sp"
                 android:text="Total: "
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="15sp"
-                android:layout_marginBottom="15sp"
-                android:layout_marginTop="15sp"/>
+                android:textStyle="bold" />
+
             <TextView
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10000"
+                android:textColor="@color/white"
                 android:textSize="20sp"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
+
             <ImageView
                 android:layout_width="20sp"
-                android:tint="@color/white"
                 android:layout_height="20sp"
                 android:scaleType="fitXY"
-                android:src="@drawable/dollar"/>
+                android:src="@drawable/dollar"
+                android:tint="@color/white" />
 
         </LinearLayout>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/AUPE_addEventBtn"
+        android:id="@+id/fbtn_addEventItem"
         android:layout_width="wrap_content"
         android:tint="@color/white"
         android:layout_height="wrap_content"

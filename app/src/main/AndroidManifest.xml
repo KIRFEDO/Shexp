@@ -13,7 +13,7 @@
             android:name=".ActivityUserPage"
             android:exported="false" />
         <activity
-            android:name=".ActivityUserPageEvent"
+            android:name=".ActivityEventInside"
             android:exported="false" />
         <activity
             android:name=".ActivityLogin"
@@ -23,6 +23,9 @@
             android:exported="false" />
         <activity
             android:name=".ActivityCreateEvent"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityCreateEventItem"
             android:exported="false" />
         <activity
             android:name=".ActivityMain"

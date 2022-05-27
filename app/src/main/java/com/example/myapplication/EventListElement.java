@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
-public class EventListElement {
+import java.io.Serializable;
+
+public class EventListElement implements Serializable {
     String eventName;
     String ownerName;
     Integer ownerAvatarId;

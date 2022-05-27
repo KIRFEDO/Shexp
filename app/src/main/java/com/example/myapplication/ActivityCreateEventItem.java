@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,32 +24,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityCreateEvent extends AppCompatActivity {
+
+public class ActivityCreateEventItem extends AppCompatActivity {
 
     SearchView sv_searchUsers;
     boolean lv_users_search_state;
     ListView lv_users;
-    TextView tv_info;
-    Button btn_createEvent;
-    EditText et_eventName;
+    TextView tv_info, tv_LoginName, tv_eventName;
+    Button btn_createItem;
+    EditText et_itemName, et_amount;
     FirebaseDatabase db;
-    DatabaseReference ref;
-    DatabaseReference ref2;
+    DatabaseReference refEvents, refUsers;
     FirebaseAuth mAuth;
     ArrayList<HelperUser> addedUsers;
     ArrayList<CreateEventUsers> users;
-    TextView tv_LoginName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_event);
+        setContentView(R.layout.activity_create_event_item);
+
+        String currentUser = (String) getIntent().getSerializableExtra("currentUser");
+        String currentEvent = (String) getIntent().getSerializableExtra("currentEvent");
 
         tv_LoginName = findViewById(R.id.tv_LoginName);
-        btn_createEvent = findViewById(R.id.btn_createEvent);
-        lv_users = findViewById(R.id.lv_users);
         tv_info = findViewById(R.id.tv_info);
-        et_eventName = findViewById(R.id.et_eventName);
+        tv_eventName = findViewById(R.id.tv_eventName);
+        btn_createItem = findViewById(R.id.btn_createItem);
+        lv_users = findViewById(R.id.lv_users);
+        et_amount = findViewById(R.id.et_amount);
+        et_itemName = findViewById(R.id.et_itemName);
         sv_searchUsers = findViewById(R.id.sv_searchUsers);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
@@ -59,8 +61,11 @@ public class ActivityCreateEvent extends AppCompatActivity {
         ArrayList<HelperUser> searchResults = new ArrayList<>();
         users = new ArrayList<>();
 
-        ref = db.getReference("UsersLogins");
-        ref.addValueEventListener(new ValueEventListener() {
+        tv_LoginName.setText(currentUser);
+        tv_eventName.setText(currentEvent);
+
+        refUsers = db.getReference("UsersLogins");
+        refUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
@@ -130,7 +135,6 @@ public class ActivityCreateEvent extends AppCompatActivity {
                             });
                             lv_users.setAdapter(adapter_userList);
                         } else {
-
                         }
                     }
                 });
@@ -139,78 +143,43 @@ public class ActivityCreateEvent extends AppCompatActivity {
             }
         });
 
-        btn_createEvent.setOnClickListener(new View.OnClickListener() {
+        btn_createItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(et_eventName.getText().toString().isEmpty()){
-                    et_eventName.setError("Enter event name");
-                    return;
-                }
-
-                if(addedUsers.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Add at least one user", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                ref = db.getReference("Events");
-
-                String eventName = et_eventName.getText().toString();
-                String ownerUid = mAuth.getCurrentUser().getUid();
-                ArrayList<String> addedUsersUID = new ArrayList<String>();
-
-                addedUsersUID.add(ownerUid);
-                for(HelperUser uli : addedUsers){
-                    for(CreateEventUsers ceu : users){
-                        if(uli.name == ceu.login){
-                            addedUsersUID.add(ceu.uid);
-                            break;
-                        }
-                    }
-                }
-
-                ref2 = db.getReference("UsersEvents");
-                ref2.addValueEventListener(new ValueEventListener() {
+                String itemName = et_itemName.getText().toString();
+                refEvents = db.getReference("Events");
+                refEvents.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        boolean wasFound = false;
-                        for(String uid : addedUsersUID){
-                            for(DataSnapshot ds : snapshot.getChildren()){
-                                UserEvents userEvents;
-                                userEvents = ds.getValue(UserEvents.class);
-                                if(userEvents.uid.equals(uid)){
-                                    if(userEvents.events == null){
-                                        userEvents.events = new ArrayList<>();
-                                    }
-                                    if(userEvents.events.indexOf(eventName) != -1){
+                        HelperEventItems eventItems;
+                        for(DataSnapshot ds : snapshot.getChildren()){
+                            if(ds.getKey().equals(currentEvent)){
+                                HelperEvent helperEvent = ds.getValue(HelperEvent.class);
+                                if(helperEvent.items != null){
+                                    if(helperEvent.items.containsKey(itemName)){
                                         return;
-                                    };
-                                    userEvents.events.add(eventName);
-                                    Map<String, Object> updateVal = new HashMap<String, Object>();
-                                    updateVal.put("uid", uid);
-                                    updateVal.put("events", userEvents.events);
-                                    ref2.child(uid).updateChildren(updateVal);
-                                    wasFound = true;
-                                    break;
+                                    }
                                 }
+
+                                ArrayList<String> addedUsers_S = new ArrayList<String>();
+                                for(HelperUser user : addedUsers){
+                                    addedUsers_S.add(user.name);
+                                }
+                                HelperItem newItem = new  HelperItem(mAuth.getUid(), currentUser,Integer.parseInt(et_amount.getText().toString()));
+                                refEvents.child(currentEvent).child("items").child(itemName).setValue(newItem);
+
+                                break;
                             }
-                            if(!wasFound){
-                                ArrayList<String> buff = new ArrayList<String>();
-                                buff.add(eventName);
-                                ref2.child(uid).setValue(new UserEvents(uid, buff));
-                            }
-                            wasFound = false;
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
-
-                HelperEvent helperClass = new HelperEvent(eventName, ownerUid, addedUsersUID);
-                ref.child(eventName).setValue(helperClass);
-                startActivity(new Intent(getApplicationContext(), ActivityUserPage.class));
             }
         });
+
     }
 }
 ;

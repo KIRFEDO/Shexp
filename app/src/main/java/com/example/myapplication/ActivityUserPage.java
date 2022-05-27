@@ -3,13 +3,10 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,9 +92,9 @@ public class ActivityUserPage extends AppCompatActivity {
                                         for (String key : ue[0].events) {
                                             for (DataSnapshot ds : snapshot.getChildren()) {
                                                 if (ds.getKey().equals(key)) {
-                                                    HelperEventClass helper = ds.getValue(HelperEventClass.class);
+                                                    HelperEvent helper = ds.getValue(HelperEvent.class);
                                                     events.add(ds.getKey());
-                                                    ownersUids.add(ds.getValue(HelperEventClass.class).ownerUid);
+                                                    ownersUids.add(ds.getValue(HelperEvent.class).ownerUid);
                                                     break;
                                                 }
                                             }
@@ -114,6 +111,7 @@ public class ActivityUserPage extends AppCompatActivity {
                                                 }
                                             }
                                         }
+                                        eventArrayList.clear();
                                         for(int i=0;i<ue[0].events.toArray().length;i++){
                                             eventArrayList.add(new EventListElement(
                                                     ue[0].events.toArray()[i].toString(),
@@ -125,7 +123,10 @@ public class ActivityUserPage extends AppCompatActivity {
                                         ll_eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                                                startActivity(new Intent(getApplicationContext(), ActivityUserPageEvent.class));
+                                                Intent intent = new Intent(getApplicationContext(), ActivityEventInside.class);
+                                                intent.putExtra("currentEvent", eventArrayList.get(pos));
+                                                intent.putExtra("currentUser", tv_LoginName.getText().toString());
+                                                startActivity(intent);
                                             }
                                         });
                                     }

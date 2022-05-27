@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityUserPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:id="@+id/ll_userInfo"
+            android:layout_width="match_parent"
+            android:layout_height="80sp"
+            android:background="@color/purple_500"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/tv_LoginName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="LOGIN_NAME"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="80sp"
+                    android:layout_height="80sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/avatar_1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_userInfo"
+            android:gravity="center|top"
+            android:orientation="vertical">
+
+            <TextView
+                android:paddingTop="15sp"
+                android:id="@+id/tv_eventName"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:hint="Event name"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_itemName"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:hint="Event name"
+                android:layout_marginTop="5sp"/>
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sv_searchUsers"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                app:defaultQueryHint="Search users"
+                app:iconifiedByDefault="false" />
+
+            <LinearLayout
+                android:layout_width="300sp"
+                android:layout_height="250sp"
+                android:layout_marginTop="30sp"
+                android:background="@drawable/list_view_border"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/lv_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add new users"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_amount"
+                android:layout_width="300sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
+                android:hint="Amount" />
+
+            <Button
+                android:id="@+id/btn_createItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:text="Create"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

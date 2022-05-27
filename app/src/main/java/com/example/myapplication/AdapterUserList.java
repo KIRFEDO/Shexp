@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 
-public class AdapterUserList extends ArrayAdapter<UserListItem> {
+public class AdapterUserList extends ArrayAdapter<HelperUser> {
 
     public interface OnAddListener {
         public void onAdd(int position, String text);
@@ -25,7 +24,7 @@ public class AdapterUserList extends ArrayAdapter<UserListItem> {
         this.onAddListener = listener;
     }
 
-    public AdapterUserList(Context context, ArrayList<UserListItem> eventArrayList){
+    public AdapterUserList(Context context, ArrayList<HelperUser> eventArrayList){
         super(context, R.layout.row_user, eventArrayList);
     }
 
@@ -33,7 +32,7 @@ public class AdapterUserList extends ArrayAdapter<UserListItem> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
 
-        UserListItem user = getItem(position);
+        HelperUser user = getItem(position);
 
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_user, parent, false);
