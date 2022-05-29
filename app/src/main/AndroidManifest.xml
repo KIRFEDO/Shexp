@@ -28,6 +28,9 @@
             android:name=".ActivityCreateEventItem"
             android:exported="false" />
         <activity
+            android:name=".ActivityTransactionsList"
+            android:exported="false" />
+        <activity
             android:name=".ActivityMain"
             android:exported="true">
             <intent-filter>

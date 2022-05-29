@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HelperItem {
     String owner_uid;
     String owner_login;
-    Integer amount;
+    float amount;
 
     public String getOwner_uid() {
         return owner_uid;
@@ -23,22 +23,19 @@ public class HelperItem {
         this.owner_login = owner_login;
     }
 
-    public Integer getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
-    public HelperItem(String owner_uid, String owner_login, Integer amount) {
+    public HelperItem(String owner_uid, String owner_login, float amount) {
         this.owner_uid = owner_uid;
         this.owner_login = owner_login;
         this.amount = amount;
     }
 
-
     public HelperItem(){};
-
-
 }

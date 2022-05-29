@@ -77,16 +77,27 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
+                android:gravity="center"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/tv_balance"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="You are all set!"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_balance"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/dollar"
+                    app:tint="@color/black"/>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -105,7 +116,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="No activities"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,6 +138,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10000"
@@ -135,11 +147,12 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/iv_total"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
                 android:scaleType="fitXY"
                 android:src="@drawable/dollar"
-                android:tint="@color/white" />
+                app:tint="@color/white"/>
 
         </LinearLayout>
     </RelativeLayout>
@@ -155,6 +168,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtn_calculateTransactions"
+        android:layout_width="wrap_content"
+        android:tint="@color/white"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        android:src="@drawable/ic_receipt"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />

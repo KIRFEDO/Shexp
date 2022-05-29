@@ -34,7 +34,7 @@ public class AdapterEventItemList extends ArrayAdapter<EventItemListElement> {
 
         eventName.setText(item.eventName);
         ownerName.setText(item.ownerName);
-        itemCost.setText(Integer.toString(item.itemCost));
+        itemCost.setText(Float.toString(item.itemCost));
 
         return convertView;
     }

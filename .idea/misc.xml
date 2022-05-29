@@ -10,10 +10,11 @@
         <entry key="..\:/Shexp/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.33" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_create_event.xml" value="0.1526268115942029" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_create_event_item.xml" value="0.1734375" />
-        <entry key="..\:/Shexp/app/src/main/res/layout/activity_event_inside.xml" value="0.1359375" />
+        <entry key="..\:/Shexp/app/src/main/res/layout/activity_event_inside.xml" value="0.25" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_register.xml" value="0.35052083333333334" />
+        <entry key="..\:/Shexp/app/src/main/res/layout/activity_transaction_list.xml" value="0.25" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page_event.xml" value="0.25" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page_new_event.xml" value="0.1526268115942029" />
@@ -23,6 +24,7 @@
         <entry key="..\:/Shexp/app/src/main/res/layout/row_createEvent.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/row_event.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/row_event_item.xml" value="0.1734375" />
+        <entry key="..\:/Shexp/app/src/main/res/layout/row_transaction.xml" value="0.17604166666666668" />
         <entry key="..\:/Shexp/app/src/main/res/layout/row_user.xml" value="0.1359375" />
       </map>
     </option>
