@@ -25,15 +25,15 @@ public class AdapterTransactionList extends ArrayAdapter<TransactionListElement>
         TransactionListElement transaction = getItem(position);
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_transaction, parent, false);
         }
 
         TextView tv_from = convertView.findViewById(R.id.tv_from);
         TextView tv_to = convertView.findViewById(R.id.tv_to);
         TextView tv_amount = convertView.findViewById(R.id.tv_amount);
 
-        tv_from.setText(transaction.from);
-        tv_to.setText(transaction.to);
+        tv_from.setText("From: "+transaction.from);
+        tv_to.setText("To: "+transaction.to);
         tv_amount.setText(Float.toString(transaction.amount));
 
         return convertView;

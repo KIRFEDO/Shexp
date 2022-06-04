@@ -26,6 +26,8 @@ public class HelperRegisterClass {
         this.uid = uid;
     }
 
+    HelperRegisterClass(){};
+
     public HelperRegisterClass(String login, String email, String uid) {
         this.login = login;
         this.email = email;

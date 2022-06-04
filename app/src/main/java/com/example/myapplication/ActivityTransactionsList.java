@@ -54,9 +54,11 @@ public class ActivityTransactionsList extends AppCompatActivity {
         iv_avatar = findViewById(R.id.iv_avatar);
         ll_transactionList = findViewById(R.id.ll_transactionList);
 
-        String login = (String) getIntent().getSerializableExtra("currentUser");
+        String currentUser = (String) getIntent().getSerializableExtra("currentUser");
         ArrayList<String> keys = (ArrayList<String>) getIntent().getSerializableExtra("balance_keys");
         ArrayList<Float> values = (ArrayList<Float>) getIntent().getSerializableExtra("balance_values");
+
+        tv_loginName.setText(currentUser);
 
         ArrayList<Pair<String, Float>> debters = new ArrayList<>();
         ArrayList<Pair<String, Float>> payers = new ArrayList<>();
@@ -71,33 +73,53 @@ public class ActivityTransactionsList extends AppCompatActivity {
         Collections.sort(payers, Comparator.comparing(p -> -p.second));
         ArrayList<TransactionListElement> transactions = new ArrayList<>();
 
-        for(int i=0; i<payers.size(); i++){
-            for(int j=0;j<debters.size();j++){
-                if(debters.get(j).second <= payers.get(i).second){
-                    transactions.add(new TransactionListElement(
-                            debters.get(j).first, payers.get(i).first, Math.abs(debters.get(j).second)
-                    ));
-                    payers.set(i,
-                            new Pair<String, Float>(payers.get(i).first, payers.get(i).second + debters.get(j).second)
-                    );
-                    debters.set(j,
-                            new Pair<String, Float>(debters.get(j).first, 0F)
-                    );
-                    if(payers.get(i).second - debters.get(j).second == 0)break;
-                } else {
-                    transactions.add(new TransactionListElement(
-                            debters.get(j).first, payers.get(i).first, payers.get(i).second
-                    ));
-                    payers.set(i,
-                            new Pair<String, Float>(payers.get(i).first, 0F)
-                    );
-                    debters.set(i,
-                            new Pair<String, Float>(payers.get(i).first, debters.get(j).second + payers.get(i).second)
-                    );
-                    break;
+        refUsers = db.getReference("UsersLogins");
+        refUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, String> users = new HashMap<>();
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    HelperRegisterClass user = ds.getValue(HelperRegisterClass.class);
+                    users.put(user.uid, user.login);
                 }
+                for(int i=0; i<payers.size(); i++){
+                    String payer = users.get(payers.get(i).first);
+                    for(int j=0;j<debters.size();j++){
+                        String debtor = users.get(debters.get(i).first);
+                        if(debters.get(j).second <= payers.get(i).second){
+                            transactions.add(new TransactionListElement(
+                                    debtor, payer, Math.abs(debters.get(j).second)
+                            ));
+                            payers.set(i,
+                                    new Pair<String, Float>(payers.get(i).first, payers.get(i).second + debters.get(j).second)
+                            );
+                            debters.set(j,
+                                    new Pair<String, Float>(debters.get(j).first, 0F)
+                            );
+                            if(payers.get(i).second - debters.get(j).second == 0)break;
+                        } else {
+                            transactions.add(new TransactionListElement(
+                                    debtor, payer, payers.get(i).second
+                            ));
+                            payers.set(i,
+                                    new Pair<String, Float>(payers.get(i).first, 0F)
+                            );
+                            debters.set(i,
+                                    new Pair<String, Float>(payers.get(i).first, debters.get(j).second + payers.get(i).second)
+                            );
+                            break;
+                        }
+                    }
+                }
+                ll_transactionList.setAdapter(new AdapterTransactionList(getApplicationContext(), transactions));
+
             }
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,7 +28,7 @@ import java.util.Map;
 public class ActivityEventInside extends AppCompatActivity {
 
     ListView lv_items;
-    ImageView iv_total, iv_balance;
+    ImageView iv_total, iv_balance, iv_avatar;
     TextView tv_LoginName, tv_eventName, tv_owner, tv_noActivities, tv_total, tv_balance;
     FloatingActionButton fbtn_addEventItem, fbtn_calculateTransactions;
     FirebaseDatabase db;
@@ -51,6 +51,7 @@ public class ActivityEventInside extends AppCompatActivity {
         tv_balance = findViewById(R.id.tv_balance);
         iv_total = findViewById(R.id.iv_total);
         iv_balance = findViewById(R.id.iv_balance);
+        iv_avatar = findViewById(R.id.iv_avatar);
         fbtn_addEventItem = findViewById(R.id.fbtn_addEventItem);
         fbtn_calculateTransactions = findViewById(R.id.fbtn_calculateTransactions);
         lv_items = findViewById(R.id.lv_items);
@@ -165,6 +166,15 @@ public class ActivityEventInside extends AppCompatActivity {
                 intent.putExtra("currentUser", tv_LoginName.getText().toString());
                 intent.putExtra("currentEvent", currentEvent);
                 startActivity(intent);
+            }
+        });
+
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), ActivityMain.class));
+                finish();
             }
         });
     }
