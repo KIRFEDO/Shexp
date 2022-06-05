@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Shexp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.182" />
+        <entry key="..\:/Shexp/app/src/main/res/drawable/border_4sp.xml" value="0.1845" />
         <entry key="..\:/Shexp/app/src/main/res/drawable/event_list_item.xml" value="0.182" />
         <entry key="..\:/Shexp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.182" />
         <entry key="..\:/Shexp/app/src/main/res/drawable/list_view_border.xml" value="0.182" />
@@ -11,6 +12,7 @@
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_create_event.xml" value="0.1526268115942029" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_create_event_item.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_event_inside.xml" value="0.25" />
+        <entry key="..\:/Shexp/app/src/main/res/layout/activity_event_item.xml" value="0.17604166666666668" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_register.xml" value="0.35052083333333334" />
@@ -18,6 +20,7 @@
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page_event.xml" value="0.25" />
         <entry key="..\:/Shexp/app/src/main/res/layout/activity_user_page_new_event.xml" value="0.1526268115942029" />
+        <entry key="..\:/Shexp/app/src/main/res/layout/border_4sp.xml" value="0.17604166666666668" />
         <entry key="..\:/Shexp/app/src/main/res/layout/dialog_img_src.xml" value="0.25" />
         <entry key="..\:/Shexp/app/src/main/res/layout/event_item_list_item.xml" value="0.1734375" />
         <entry key="..\:/Shexp/app/src/main/res/layout/event_list_item.xml" value="0.1734375" />

@@ -39,8 +39,17 @@ public class AdapterUserList extends ArrayAdapter<HelperUser> {
         }
 
         ImageView iv_removeUser = convertView.findViewById(R.id.iv_removeUser);
-        TextView tv_userName = convertView.findViewById(R.id.tv_userName);
+        ImageView iv_avatar = convertView.findViewById(R.id.iv_avatar);
+        switch (user.avatarId){
+            case 1:
+                iv_avatar.setImageResource(R.drawable.avatar_1);
+                break;
+            case 2:
+                iv_avatar.setImageResource(R.drawable.avatar_2);
+                break;
+        }
 
+        TextView tv_userName = convertView.findViewById(R.id.tv_userName);
         tv_userName.setText(user.name);
         if(!user.remove_option) {
             iv_removeUser.setVisibility(View.INVISIBLE);

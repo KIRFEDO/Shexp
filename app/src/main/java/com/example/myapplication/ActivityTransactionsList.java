@@ -55,10 +55,19 @@ public class ActivityTransactionsList extends AppCompatActivity {
         ll_transactionList = findViewById(R.id.ll_transactionList);
 
         String currentUser = (String) getIntent().getSerializableExtra("currentUser");
+        int avatarId = (Integer) getIntent().getSerializableExtra("avatarId");
         ArrayList<String> keys = (ArrayList<String>) getIntent().getSerializableExtra("balance_keys");
         ArrayList<Float> values = (ArrayList<Float>) getIntent().getSerializableExtra("balance_values");
 
         tv_loginName.setText(currentUser);
+        switch (avatarId){
+            case 1:
+                iv_avatar.setImageResource(R.drawable.avatar_1);
+                break;
+            case 2:
+                iv_avatar.setImageResource(R.drawable.avatar_2);
+                break;
+        }
 
         ArrayList<Pair<String, Float>> debters = new ArrayList<>();
         ArrayList<Pair<String, Float>> payers = new ArrayList<>();

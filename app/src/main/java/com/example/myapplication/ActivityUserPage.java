@@ -24,13 +24,14 @@ import java.util.ArrayList;
 public class ActivityUserPage extends AppCompatActivity {
 
     ListView ll_eventList;
-    ImageView AUP_avatar;
+    ImageView iv_avatar;
     FirebaseDatabase db;
     DatabaseReference refUid, refUserEvents, refEvents;
     FirebaseAuth mAuth;
     FloatingActionButton AUP_addEventBtn;
     TextView tv_LoginName, tv_emptyEventList;
     ArrayList<CreateEventUsers> users;
+    CreateEventUsers currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class ActivityUserPage extends AppCompatActivity {
         setContentView(R.layout.activity_user_page);
 
         ll_eventList = findViewById(R.id.ll_eventList);
-        AUP_avatar = findViewById(R.id.AUP_avatar);
+        iv_avatar = findViewById(R.id.iv_avatar);
         AUP_addEventBtn = findViewById(R.id.AUP_addEventBtn);
         tv_LoginName = findViewById(R.id.tv_LoginName);
         tv_emptyEventList = findViewById(R.id.tv_emptyEventList);
@@ -46,7 +47,7 @@ public class ActivityUserPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
-        AUP_avatar.setOnClickListener(new View.OnClickListener() {
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
@@ -60,8 +61,20 @@ public class ActivityUserPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
+
                     if(ds.getValue(CreateEventUsers.class).uid.equals(mAuth.getUid())){
-                        tv_LoginName.setText(ds.getValue(CreateEventUsers.class).login);
+                        currentUser = ds.getValue(CreateEventUsers.class);
+                        switch(currentUser.avatarId){
+                            case 1:
+                                iv_avatar.setImageResource(R.drawable.avatar_1);
+                                break;
+                            case 2:
+                                iv_avatar.setImageResource(R.drawable.avatar_2);
+                                break;
+                            default:
+                                break;
+                        }
+                        tv_LoginName.setText(currentUser.login);
                     }
                     users.add(ds.getValue(CreateEventUsers.class));
                 }
@@ -80,9 +93,10 @@ public class ActivityUserPage extends AppCompatActivity {
                             }
                         }
                         if(wasFound[0]) {
-                            ArrayList events = new ArrayList<String>();
-                            ArrayList ownersUids = new ArrayList<String>();
-                            ArrayList owners = new ArrayList<String>();
+                            ArrayList<String> events = new ArrayList<>();
+                            ArrayList<String> ownersUids = new ArrayList<>();
+                            ArrayList<String> owners = new ArrayList<>();
+                            ArrayList<Integer> avatarIds = new ArrayList<>();
                             ArrayList<EventListElement> eventArrayList = new ArrayList<>();
                             refEvents = db.getReference("Events");
                             refEvents.addValueEventListener(new ValueEventListener() {
@@ -101,13 +115,16 @@ public class ActivityUserPage extends AppCompatActivity {
                                         }
                                         for(Object user : ownersUids){
                                             for(CreateEventUsers ceu : users) {
-                                                if(user.toString().equals(mAuth.getUid())){
-                                                    owners.add("You");
-                                                    break;
-                                                }
-                                                if (user.toString().equals(ceu.uid)) {
-                                                    owners.add(ceu.login);
-                                                    break;
+                                                if(ceu.uid.equals(user.toString())){
+                                                    avatarIds.add(ceu.avatarId);
+                                                    if(user.toString().equals(mAuth.getUid())){
+                                                        owners.add("You");
+                                                        break;
+                                                    }
+                                                    if (user.toString().equals(ceu.uid)) {
+                                                        owners.add(ceu.login);
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
@@ -116,7 +133,7 @@ public class ActivityUserPage extends AppCompatActivity {
                                             eventArrayList.add(new EventListElement(
                                                     ue[0].events.toArray()[i].toString(),
                                                     "Owner: " + owners.get(i).toString(),
-                                                    1)
+                                                    avatarIds.get(i))
                                                 );
                                         }
                                         ll_eventList.setAdapter(new AdapterEventList(getApplicationContext(), eventArrayList));
@@ -126,6 +143,7 @@ public class ActivityUserPage extends AppCompatActivity {
                                                 Intent intent = new Intent(getApplicationContext(), ActivityEventInside.class);
                                                 intent.putExtra("currentEvent", eventArrayList.get(pos));
                                                 intent.putExtra("currentUser", tv_LoginName.getText().toString());
+                                                intent.putExtra("avatarId", currentUser.avatarId);
                                                 startActivity(intent);
                                             }
                                         });
@@ -157,7 +175,9 @@ public class ActivityUserPage extends AppCompatActivity {
         AUP_addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ActivityCreateEvent.class));
+                Intent intent = new Intent(getApplicationContext(), ActivityCreateEvent.class);
+                intent.putExtra("currentUser", currentUser);
+                startActivity(intent);
             }
         });
     }

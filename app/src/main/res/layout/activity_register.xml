@@ -42,6 +42,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/AR_LoginET"
             android:layout_width="270sp"
+            android:layout_marginTop="50sp"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="Login">
@@ -87,6 +88,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="270sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_avatar1"
+                android:layout_width="70sp"
+                android:layout_height="70sp"
+                android:scaleType="fitXY"
+                android:src="@drawable/avatar_1"
+                android:background="@drawable/border_4sp"/>
+
+            <ImageView
+                android:id="@+id/iv_avatar2"
+                android:layout_width="70sp"
+                android:layout_height="70sp"
+                android:scaleType="fitXY"
+                android:src="@drawable/avatar_2"
+                android:layout_marginLeft="50sp"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/AR_registerBTN"

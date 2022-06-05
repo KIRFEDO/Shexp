@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,18 @@ public class AdapterEventList extends ArrayAdapter<EventListElement> {
 
         TextView eventName = convertView.findViewById(R.id.ELI_eventName);
         TextView ownerName = convertView.findViewById(R.id.ELI_ownerName);
+        ImageView iv_avatar = convertView.findViewById(R.id.iv_avatar);
 
         eventName.setText(event.eventName);
         ownerName.setText(event.ownerName);
+        switch (event.ownerAvatarId){
+            case 1:
+                iv_avatar.setImageResource(R.drawable.avatar_1);
+                break;
+            case 2:
+                iv_avatar.setImageResource(R.drawable.avatar_2);
+                break;
+        }
 
         return convertView;
     }

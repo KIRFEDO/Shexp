@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 public class HelperRegisterClass {
-
     public String getLogin() {
         return login;
     }
@@ -26,15 +25,25 @@ public class HelperRegisterClass {
         this.uid = uid;
     }
 
-    HelperRegisterClass(){};
+    public int getAvatarId() {
+        return avatarId;
+    }
 
-    public HelperRegisterClass(String login, String email, String uid) {
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public HelperRegisterClass(String login, String email, String uid, int avatarId) {
         this.login = login;
         this.email = email;
         this.uid = uid;
+        this.avatarId = avatarId;
     }
+
+    public HelperRegisterClass(){};
 
     String login;
     String email;
     String uid;
+    int avatarId;
 }

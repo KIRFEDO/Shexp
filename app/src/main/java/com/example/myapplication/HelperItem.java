@@ -6,6 +6,7 @@ public class HelperItem {
     String owner_uid;
     String owner_login;
     float amount;
+    String image_key;
 
     public String getOwner_uid() {
         return owner_uid;
@@ -31,10 +32,19 @@ public class HelperItem {
         this.amount = amount;
     }
 
-    public HelperItem(String owner_uid, String owner_login, float amount) {
+    public String getImage_key() {
+        return image_key;
+    }
+
+    public void setImage_key(String image_key) {
+        this.image_key = image_key;
+    }
+
+    public HelperItem(String owner_uid, String owner_login, float amount, String image_key) {
         this.owner_uid = owner_uid;
         this.owner_login = owner_login;
         this.amount = amount;
+        this.image_key = image_key;
     }
 
     public HelperItem(){};

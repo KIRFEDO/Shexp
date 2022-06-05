@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.drive.events.CompletionListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,8 +31,9 @@ public class ActivityRegister extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference ref;
     TextInputLayout AR_loginET, AR_emailET, AR_passwordET, AR_passwordRepET;
-    ImageView AR_backArrow;
+    ImageView AR_backArrow, iv_avatar1, iv_avatar2;
     Button AR_registerBTN;
+    int avatarId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,33 @@ public class ActivityRegister extends AppCompatActivity {
         AR_passwordET = findViewById(R.id.AR_PasswordET);
         AR_passwordRepET = findViewById(R.id.AR_PasswordRepET);
         AR_registerBTN = findViewById(R.id.AR_registerBTN);
+        iv_avatar1 = findViewById(R.id.iv_avatar1);
+        iv_avatar2 = findViewById(R.id.iv_avatar2);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
+
+        iv_avatar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(avatarId != 1){
+                    iv_avatar2.setBackgroundResource(0);
+                    iv_avatar1.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_4sp));
+                    avatarId = 1;
+                }
+            }
+        });
+
+        iv_avatar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(avatarId != 2){
+                    iv_avatar1.setBackgroundResource(0);
+                    iv_avatar2.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.border_4sp));
+                    avatarId = 2;
+                }
+            }
+        });
 
         AR_backArrow = findViewById(R.id.AR_backArrow);
         AR_backArrow.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +123,7 @@ public class ActivityRegister extends AppCompatActivity {
 
                                 //Users table
                                 ref = db.getReference("UsersUID");
-                                ref.child(mAuth.getCurrentUser().getUid()).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid()), new DatabaseReference.CompletionListener() {
+                                ref.child(mAuth.getCurrentUser().getUid()).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid(), avatarId), new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                         if(error != null){
@@ -108,7 +134,7 @@ public class ActivityRegister extends AppCompatActivity {
                                 });
                                 //Logins table
                                 ref = db.getReference("UsersLogins");
-                                ref.child(login).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid()), new DatabaseReference.CompletionListener() {
+                                ref.child(login).setValue(new HelperRegisterClass(login, email, mAuth.getCurrentUser().getUid(), avatarId), new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                         if(error != null){

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public class ActivityCreateEvent extends AppCompatActivity {
 
+    ImageView iv_avatar;
     SearchView sv_searchUsers;
     boolean lv_users_search_state;
     ListView lv_users;
@@ -58,6 +60,20 @@ public class ActivityCreateEvent extends AppCompatActivity {
         addedUsers = new ArrayList<>();
         ArrayList<HelperUser> searchResults = new ArrayList<>();
         users = new ArrayList<>();
+        iv_avatar = findViewById(R.id.iv_avatar);
+
+        CreateEventUsers currentUser = (CreateEventUsers) getIntent().getSerializableExtra("currentUser");
+        tv_LoginName.setText(currentUser.login);
+        switch(currentUser.avatarId){
+            case 1:
+                iv_avatar.setImageResource(R.drawable.avatar_1);
+                break;
+            case 2:
+                iv_avatar.setImageResource(R.drawable.avatar_2);
+                break;
+            default:
+                break;
+        }
 
         ref = db.getReference("UsersLogins");
         ref.addValueEventListener(new ValueEventListener() {
@@ -105,7 +121,16 @@ public class ActivityCreateEvent extends AppCompatActivity {
                 searchResults.clear();
                 for(CreateEventUsers user : users){
                     if(user.login.toLowerCase().contains(newText.toLowerCase())) {
-                        searchResults.add(new HelperUser(user, false));
+                        boolean wasFound = false;
+                        HelperUser buff = new HelperUser(user, false);
+                        for(HelperUser buffUser : addedUsers){
+                            if(buffUser.name.equals(user.login)){
+                                wasFound = true;
+                            }
+                        }
+                        if(!wasFound){
+                            searchResults.add(buff);
+                        }
                     }
                 }
 
@@ -209,6 +234,15 @@ public class ActivityCreateEvent extends AppCompatActivity {
                 HelperEvent helperClass = new HelperEvent(eventName, ownerUid, addedUsersUID);
                 ref.child(eventName).setValue(helperClass);
                 startActivity(new Intent(getApplicationContext(), ActivityUserPage.class));
+            }
+        });
+
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), ActivityMain.class));
+                finish();
             }
         });
     }

@@ -42,24 +42,36 @@ public class ActivityEventInside extends AppCompatActivity {
         setContentView(R.layout.activity_event_inside);
 
         EventListElement currentEvent = (EventListElement) getIntent().getSerializableExtra("currentEvent");
+        tv_eventName = findViewById(R.id.tv_eventName);
+        tv_eventName.setText("Events: "+currentEvent.eventName);
+
         String currentUser = (String) getIntent().getSerializableExtra("currentUser");
         tv_LoginName = findViewById(R.id.tv_LoginName);
-        tv_eventName = findViewById(R.id.tv_eventName);
+        tv_LoginName.setText(currentUser);
+
+        int avatarId = (Integer) getIntent().getSerializableExtra("avatarId");
+        iv_avatar = findViewById(R.id.iv_avatar);
+        switch (avatarId){
+            case 1:
+                iv_avatar.setImageResource(R.drawable.avatar_1);
+                break;
+            case 2:
+                iv_avatar.setImageResource(R.drawable.avatar_2);
+                break;
+        }
+
         tv_owner = findViewById(R.id.tv_owner);
         tv_noActivities = findViewById(R.id.tv_noActivities);
         tv_total = findViewById(R.id.tv_total);
         tv_balance = findViewById(R.id.tv_balance);
         iv_total = findViewById(R.id.iv_total);
         iv_balance = findViewById(R.id.iv_balance);
-        iv_avatar = findViewById(R.id.iv_avatar);
         fbtn_addEventItem = findViewById(R.id.fbtn_addEventItem);
         fbtn_calculateTransactions = findViewById(R.id.fbtn_calculateTransactions);
         lv_items = findViewById(R.id.lv_items);
         db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        tv_LoginName.setText(currentUser);
-        tv_eventName.setText(currentEvent.eventName);
         tv_owner.setText(currentEvent.ownerName);
 
         refEvents = db.getReference("Events");
@@ -147,6 +159,7 @@ public class ActivityEventInside extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ActivityTransactionsList.class);
                 intent.putExtra("currentUser", tv_LoginName.getText().toString());
+                intent.putExtra("avatarId", avatarId);
                 ArrayList<String> balance_keys = new ArrayList<>();
                 ArrayList<Float> balance_values = new ArrayList<>();
                 for(Map.Entry<String, Float> user : balance.entrySet()){
@@ -165,6 +178,7 @@ public class ActivityEventInside extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ActivityCreateEventItem.class);
                 intent.putExtra("currentUser", tv_LoginName.getText().toString());
                 intent.putExtra("currentEvent", currentEvent);
+                intent.putExtra("avatarId", avatarId);
                 startActivity(intent);
             }
         });
