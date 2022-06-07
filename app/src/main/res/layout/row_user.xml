@@ -40,7 +40,7 @@
                     android:id="@+id/tv_userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EVENT_NAME"
+                    android:text="USER_NAME"
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>

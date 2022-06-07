@@ -1,11 +1,10 @@
 package com.example.myapplication;
 
-import androidx.constraintlayout.solver.widgets.Helper;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HelperEvent {
+public class HelperEvent implements Serializable {
 
     String eventName;
     String ownerUid;

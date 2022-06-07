@@ -24,7 +24,7 @@
                 android:layout_marginLeft="10sp">
 
                 <TextView
-                    android:id="@+id/EILI_eventName"
+                    android:id="@+id/tv_itemName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="EVENT_ITEM_NAME"

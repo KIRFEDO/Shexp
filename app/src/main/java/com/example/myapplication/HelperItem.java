@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import java.util.ArrayList;
-
 public class HelperItem {
     String owner_uid;
     String owner_login;

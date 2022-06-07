@@ -37,6 +37,12 @@
             android:name=".ActivityTransactionsList"
             android:exported="false" />
         <activity
+            android:name=".ActivityParticipants"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityEventItem"
+            android:exported="true"/>
+        <activity
             android:name=".ActivityMain"
             android:exported="true">
             <intent-filter>

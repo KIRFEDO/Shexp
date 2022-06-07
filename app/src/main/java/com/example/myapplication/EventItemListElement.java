@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
 public class EventItemListElement {
-    String eventName;
+    String itemName;
     String ownerName;
     Float itemCost;
 
-    public EventItemListElement(String eventName, String ownerName, Float itemCost) {
-        this.eventName = eventName;
+    public EventItemListElement(String itemName, String ownerName, Float itemCost) {
+        this.itemName = itemName;
         this.ownerName = ownerName;
         this.itemCost = itemCost;
     }

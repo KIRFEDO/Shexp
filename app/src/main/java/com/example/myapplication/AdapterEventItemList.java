@@ -28,11 +28,11 @@ public class AdapterEventItemList extends ArrayAdapter<EventItemListElement> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_event_item, parent, false);
         }
 
-        TextView eventName = convertView.findViewById(R.id.EILI_eventName);
+        TextView tv_itemName = convertView.findViewById(R.id.tv_itemName);
         TextView ownerName = convertView.findViewById(R.id.EILI_ownerName);
         TextView itemCost = convertView.findViewById(R.id.EILI_itemCost);
 
-        eventName.setText(item.eventName);
+        tv_itemName.setText(item.itemName);
         ownerName.setText(item.ownerName);
         itemCost.setText(Float.toString(item.itemCost));
 
