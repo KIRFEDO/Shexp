@@ -84,7 +84,7 @@ public class ActivityTransactionsList extends AppCompatActivity {
                 for(int i=0; i<payers.size(); i++){
                     String payer = users.get(payers.get(i).first);
                     for(int j=0;j<debters.size();j++){
-                        String debtor = users.get(debters.get(i).first);
+                        String debtor = users.get(debters.get(j).first);
                         if(debters.get(j).second <= payers.get(i).second){
                             transactions.add(new TransactionListElement(
                                     debtor, payer, Math.abs(debters.get(j).second)
