@@ -12,12 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.SuccessContinuation;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -92,9 +96,13 @@ public class ActivityEventItem extends AppCompatActivity {
                 refStorage = storage.getReference().child("images/"+imageKey);
                 try {
                     File buff = File.createTempFile("buff", ".jpg");
-                    refStorage.getFile(buff);
-                    Bitmap bitmap = BitmapFactory.decodeFile(buff.getAbsolutePath());
-                    iv_photo.setImageBitmap(bitmap);
+                    refStorage.getFile(buff).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(buff.getAbsolutePath());
+                            iv_photo.setImageBitmap(bitmap);
+                        }
+                    });
                 }catch(IOException ie){};
             }
             @Override
